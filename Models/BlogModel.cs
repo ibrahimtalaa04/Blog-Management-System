@@ -14,11 +14,14 @@
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage ="Content is required!")]
         public string? content { get; set; }
+        
+        [Required(ErrorMessage ="Category is required!")]
+        public string? Category { get; set; }
 
         public DateTime? dateAdded { get; set; }= DateTime.Now;
 
         [StringLength(200)]
-        public string? imagePath { get; set; }
+        public string? imagePath { get; set; } = "defaultblog.jpg";
 
         [Required]
         public int UserId { get; set; }

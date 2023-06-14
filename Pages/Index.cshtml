@@ -44,36 +44,35 @@
                 <img src="/img/random.jpg" class="img-fluid radius-20" />
             </div>
         </div>
-
-        <div class="col-lg-6">
-            <div>
-                <p class="fs-4">Category</p>
-                <h2>Title</h2>
-                <p>Description</p>
-            </div>
-        </div>
-
     </div>
     <div class="row">
-        <div class="col-lg-4 my-3">
-            <div class="card border-none">
-                <img src="/img/random.jpg" class="card-img-top radius-20" alt="...">
-                <div class="card-body border-none">
-                    <h6 class="text-blue">Category</h6>
-                    <h3 class="card-title">Card title</h3>
-                    <p class="card-text mb-0">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="d-flex align-items-center mt-1">
-                        <div class="">
-                            <img src="/img/user.jpg" style="width: 50px;height: 50px; border-radius: 50%;" />
-                        </div>
-                        <div class="ms-3 mt-3">
-                            <h6 class="mb-0">full name</h6>
-                            <p>15-6-2023</p>
+
+        @{
+            foreach (var item in Model.Blogs)
+            {
+                <div class="col-lg-4 my-3">
+                    <div class="card border-none">
+                        <img src="/img/random.jpg" class="card-img-top radius-20" alt="...">
+                        <div class="card-body border-none">
+                            <h6 class="text-blue">@item.Category</h6>
+                            <h3 class="card-title">@item.title</h3>
+                            <p class="card-text mb-0">@item.content!.Take(50)</p>
+                            <div class="d-flex align-items-center mt-1">
+                                <div class="">
+                                    <img src="/img/user.jpg" style="width: 50px;height: 50px; border-radius: 50%;" />
+                                </div>
+                                <div class="ms-3 mt-3">
+                                    <h6 class="mb-0">full name</h6>
+                                    <p>15-6-2023</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            }
+
+        }
+
     </div>
 
 
