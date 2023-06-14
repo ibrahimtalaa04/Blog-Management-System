@@ -55,7 +55,7 @@
                             dateAdded= DateTime.Parse(dr[3].ToString()!),
                             imagePath= dr[4].ToString(),
                             UserId= Convert.ToInt32(dr[5].ToString()),
-                            Category = dr[6].ToString()
+                            Category = dr[6].ToString(),
                         }
                     );
 

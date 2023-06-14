@@ -1,0 +1,29 @@
+﻿@page "/{id:int}"
+@model BlogManagementSystem.Pages.Blogs.AddModel
+@{
+}
+
+<form method="post" enctype="multipart/form-data" >
+
+    <input hidden asp-for="blogModel.Id" />
+    <div class="mb-3">
+        <label asp-for="blogModel.title" class="form-label"></label>
+        <input class="form-control" placeholder="Title here" asp-for="blogModel.title" />
+        <span asp-validation-for="blogModel.title" class="text-validation" ></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="blogModel.content" ></label>
+        <textarea class="form-control" asp-for="blogModel.content" rows="3" placeholder="Content here"></textarea>
+        <span asp-validation-for="blogModel.content" class="text-validation"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="blogModel.Category" class="form-label"></label>
+        <input class="form-control" placeholder="Category here" asp-for="blogModel.Category" />
+        <span asp-validation-for="blogModel.Category" class="text-validation"></span>
+    </div>
+
+
+
+</form>

@@ -14,11 +14,11 @@ namespace BlogManagementSystem.Pages
             _logger = logger;
         }
 
-        public BindingList<BlogModel> Blogs { get; set; }=new BindingList<BlogModel>();
+        public List<BlogModel> Blogs { get; set; }=new List<BlogModel>();
 
         public void OnGet()
         {
-            Blogs=BlogList.GetAll();
+            Blogs=BlogList.GetAll().Take(6).ToList();
 
         }
     }
