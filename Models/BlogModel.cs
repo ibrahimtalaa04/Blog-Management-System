@@ -21,7 +21,7 @@
         public string? imagePath { get; set; }
 
         [Required]
-        public string? UserId { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey("UserId")]
         public UserModel? UserBlog { get; set; }
