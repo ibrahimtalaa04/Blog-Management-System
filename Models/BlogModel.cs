@@ -20,6 +20,10 @@
 
         public DateTime? dateAdded { get; set; }= DateTime.Now;
 
+
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
+
         [StringLength(200)]
         public string? imagePath { get; set; } = "defaultblog.jpg";
 

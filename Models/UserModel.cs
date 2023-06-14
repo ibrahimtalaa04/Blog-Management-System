@@ -25,6 +25,9 @@ namespace BlogManagementSystem.Models
         [DataType(DataType.Password)]
         public string? password { get; set; }
 
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
+
         [StringLength(200)]
         public string? imagePath { get; set; }
 
