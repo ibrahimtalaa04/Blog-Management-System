@@ -5,6 +5,7 @@ namespace BlogManagementSystem.Models
     public class UserModel
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [StringLength(50,ErrorMessage ="First Name must be less than 50 char !")]
@@ -20,7 +21,8 @@ namespace BlogManagementSystem.Models
         public string? email { get; set; }
 
         [Required(ErrorMessage ="Password is required !")]
-        [StringLength(200)]
+        [StringLength(200,ErrorMessage ="Password length must be between 6 and 200",MinimumLength =6)]
+        [DataType(DataType.Password)]
         public string? password { get; set; }
 
         [StringLength(200)]
