@@ -25,25 +25,25 @@ namespace BlogManagementSystem.Pages.Portal
             {
                 return Page();
             }
+            UserModel? userModel = UserRepository.GetByEmail(signinViewModel.Email);
 
-            if (UserRepository.GetByEmail(signinViewModel.Email) == null)
+            if (userModel== null)
             {
                 ModelState.AddModelError("signinViewModel.Email", "Email is not exist!");
                 return Page();
             }
-
-            UserModel? userModel = UserRepository.GetByEmail(signinViewModel.Email);
-
-            if (userModel != null)
+            else 
             {
                 if(userModel.password!=signinViewModel.Password)
                 {
                     ModelState.AddModelError("signinViewModel.Password", "Wrong Password !");
                     return Page();
                 }
+
+                UserRepository.User = userModel;
+                return RedirectToPage("/index");
             }
 
-            return RedirectToPage("/index");
         }
     }
 }
