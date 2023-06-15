@@ -8,7 +8,7 @@ namespace BlogManagementSystem.Data
 
         static dbAccess con;
         static OracleConnection aOracleConnection;
-        public static UserModel User;
+        public UserModel User;
         public static void Signup(SignupViewModel model)
         {
             Open();
