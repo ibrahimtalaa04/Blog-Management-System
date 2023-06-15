@@ -4,32 +4,51 @@
 }
 
 
+@{
+    ViewData["Title"] = "Projects";
+    var param = new Dictionary<string, string>()
+    {
+       { nameof(BlogQueryParamters.CurPage),Model.queryParamters.CurPage.ToString() },
+       { nameof(BlogQueryParamters.Size),Model.queryParamters.Size.ToString() },
+       { nameof(BlogQueryParamters.SearchTearm),Model.queryParamters.SearchTearm },
 
+    };
+}
 
-<div class="container bg-purple radius-20">
-    <div style="height: 200px;" class="d-flex  justify-content-center align-items-center ">
-        <h2 class="text-white">Blog</h2>
+<form method="get">
+        <input hidden name="CurPage" asp-for="@Model.queryParamters.CurPage" />
+
+    <div class="container bg-purple radius-20">
+        <div style="height: 200px;" class="d-flex  justify-content-center align-items-center ">
+            <h2 class="text-white">Blog</h2>
+        </div>
     </div>
-</div>
+    <div class="container mx-auto">
+        <div class="form-search bg-primary">
+            <div class="input-group mb-3 shadow">
+                <input  asp-for="queryParamters.SearchTearm" class="form-control border-none" placeholder="Search" style=" height: 60px;">
+                <button type="submit" class="input-group-text bg-white fs-3 border-none" for="search">
+                    <i class='bx bx-search  '></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
-<div class="container mx-auto">
-    <div class="form-search bg-primary">
-        <div class="input-group mb-3 shadow">
-            <label class="input-group-text bg-white fs-3 border-none" for="search">
-                <i class='bx bx-search  '></i>
-            </label>
-            <input type="text" name="search" class="form-control border-none" placeholder="Search" style=" height: 60px;">
+    <div class="d-flex justify-content-end mb-3">
+    </div>
+
+
+    <div class="d-flex justify-content-between mb-2">
+        <div>
+            <h4 class="fw-bold py-3 ">
+                <span class="text-muted fw-light ms-3">@ViewData["Title"] /</span> All
+            </h4>
         </div>
 
+        <a class="btn btn-primary h-50" asp-page="Add" ><i class="bx bx-add-to-queue me-2"></i> Add</a>
     </div>
-</div>
 
 
-<div class="d-flex justify-content-end mb-3">
-    <a class="btn btn-dark" asp-page="Add" asp-route-id="0" >Add</a>
-</div>
-
-<div class="container">
     <div class="row">
 
         @{
@@ -37,11 +56,11 @@
             {
                 <div class="col-lg-4 my-3">
                     <div class="card border-none">
-                        <img src="/img/@item.imagePath" class="card-img-top radius-20" alt="...">
+                        <img src="/img/@item.imagePath" style="max-height:180px;" class="card-img-top radius-20" alt="...">
                         <div class="card-body border-none">
                             <h6 class="text-blue">@item.Category</h6>
                             <h3 class="card-title">@item.title</h3>
-                            <p class="card-text mb-0">@item.content!.Substring(0,5)</p>
+                            <p class="card-text mb-0">@item.content!.Substring(0,2)</p>
                             <div class="d-flex align-items-center mt-1">
                                 <div class="">
                                     <img src="/img/user.jpg" style="width: 50px;height: 50px; border-radius: 50%;" />
@@ -51,10 +70,14 @@
                                     <p>15-6-2023</p>
                                 </div>
                             </div>
-                            <a asp-page="Add" asp-route-Id="@item.Id" class="btn btn-primary">Edit</a>
-                            <form method="post" asp-route-id="@item.Id" >
-                                <button type="submit" class="btn btn-primary" >Delete</button>
-                            </form>
+                            <div class="d-flex">
+
+                                <a asp-page="Add" asp-route-Id="@item.Id" class="btn btn-primary me-2">Edit</a>
+
+                                <a class="btn-danger" onclick="ShowModelDEtails('DetailModel',@System.Text.Json.JsonSerializer.Serialize(item))">
+                                    Delete
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,7 +85,138 @@
 
         }
 
+
     </div>
 
 
+    @{
+        var prev = Model.pageResult.PreviousPage.HasValue ? "" : "disabled ";
+        var next = Model.pageResult.NextPage.HasValue ? "" : "disabled ";
+        var first = (Model.queryParamters.CurPage != 1 && Model.pageResult.TotalPages != 0) ? "" : "disabled ";
+        var last = (Model.queryParamters.CurPage != Model.pageResult.TotalPages && Model.pageResult.TotalPages != 0) ? "" : "disabled ";
+
+        param["CurPage"] = "1";
+    }
+    <div class="row mt-3 p-3">
+        <div class="col-6 ">
+            <div class="dataTables_info fw-bold text-primary">
+                Showing  @Model.pageResult.FirstRowOnPage to @Model.pageResult.LastRowOnPage of @Model.pageResult.TotalCount entries
+            </div>
+        </div>
+        <div class="col-6 d-flex flex-row-reverse">
+            <ul class="pagination">
+                <li class=" page-item active mx-3">
+                    <label class="px-1 fw-bold">Page Size:</label>
+                    <select class="form-select w-auto d-inline-block " asp-items="Model.lstPageSize" asp-for="queryParamters.Size" onchange="submit()">
+                    </select>
+                </li>
+                <li class="">
+                    <a class="btn btn-outline-primary me-2 @first" asp-all-route-data="param">
+                        <i class="tf-icon bx bx-chevrons-left"></i>
+                    </a>
+
+                </li>
+                @{
+                    param["CurPage"] = Model.pageResult.PreviousPage.ToString() ?? "";
+                }
+                <li  class="">
+                    <a class="btn  btn-outline-primary me-2 @prev" asp-all-route-data="param">
+                        <i class="tf-icon bx bx-chevron-left"></i>
+                    </a>
+                </li>
+                <li style="padding-top: 7px; padding-right: 10px;">
+                    @Model.queryParamters.CurPage / @Model.pageResult.TotalPages
+                </li>
+                @{
+                    param["CurPage"] = Model.pageResult.NextPage.ToString() ?? "";
+                }
+                <li class="">
+                    <a class="btn  btn-outline-primary me-2 @next" asp-all-route-data="param">
+                        <i class="tf-icon bx bx-chevron-right"></i>
+                    </a>
+                </li>
+                @{
+                    param["CurPage"] = Model.pageResult.TotalPages.ToString() ?? "";
+                }
+                <li class="">
+                    <a class=" btn btn-outline-primary me-2 @last" asp-all-route-data="param">
+                        <i class="tf-icon bx bx-chevrons-right"></i>
+                    </a>
+                </li>
+            </ul>
+
+
+        </div>
+    </div>
+
+
+
+
+</form>
+<div class="modal fade" id="DetailModel" tabindex="-1" aria-labelledby="DetailModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetailModelLabel">Details </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <div class="modal-body pb-2">
+                    <input name="Id" id="Id" type="hidden" />
+                    <div>
+                        <h4>Blog Details</h4>
+                        <hr />
+                        <dl class="row">
+                            <dt class="col-sm-4">
+                                Title
+                            </dt>
+                            <dd class="col-sm-8">
+                                <span class="" id="Title"></span>
+                            </dd>
+                            <dt class="col-sm-4">
+                                Content
+                            </dt>
+                            <dd class="col-sm-8">
+                                <span class="" id="Content"></span>
+                            </dd>
+                            <dt class="col-sm-4">
+                                Image
+                            </dt>
+                            <dd class="col-sm-8">
+                                <img src="" id="Image" style="max-height:180px;" class="card-img-top radius-20" alt="...">
+
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark " data-bs-dismiss="modal">Close</button>
+                    <button id="btndelete" type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+
+
+@section scripts{
+    <script>
+        function ShowModelDEtails(modelid, dataObj) {
+            let modelElm = document.getElementById(modelid);
+            var myModal = new bootstrap.Modal(modelElm, {
+                keyboard: false
+            })
+
+            if (dataObj !== null) {
+                console.table(dataObj);
+                modelElm.querySelector('#Id').value = dataObj.Id;
+                modelElm.querySelector('#Title').textContent = dataObj.title;
+                modelElm.querySelector('#Content').textContent = dataObj.content;
+                modelElm.querySelector('#Image').src = `\\img\\${dataObj.imagePath}`;
+            }
+
+            myModal.toggle()
+        }
+    </script>
+}

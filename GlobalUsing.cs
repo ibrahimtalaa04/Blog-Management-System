@@ -9,6 +9,9 @@ global using System.Data;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.ModelBinding;
 global using Microsoft.AspNetCore.Mvc.RazorPages;
+global using BlogManagementSystem.Data;
+global using BlogManagementSystem.ViewModels;
+
 
 
 namespace BlogManagementSystem

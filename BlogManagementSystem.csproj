@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ViewModels\BlogQueryParamters.cs~RF3cb022f.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DbAccsess" Version="1.0.0" />
   </ItemGroup>
 
