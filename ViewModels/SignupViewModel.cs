@@ -30,6 +30,7 @@
         [DataType(DataType.Password)]
         public string? ConfirmPassword { get; set; }
 
+        public string? imagePath { get; set; }
 
         public bool IAgree { get; set; }
     }
