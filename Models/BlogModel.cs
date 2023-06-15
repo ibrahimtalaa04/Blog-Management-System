@@ -15,6 +15,7 @@
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage ="Content is required!")]
         [Display(Name = "Content")]
+        [MinLength(50,ErrorMessage ="Minmun is 50 char")]
         public string? content { get; set; }
         
         [Required(ErrorMessage ="Category is required!")]
