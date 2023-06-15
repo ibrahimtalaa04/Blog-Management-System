@@ -8,7 +8,7 @@ namespace BlogManagementSystem.Data
 
         static dbAccess con;
         static OracleConnection aOracleConnection;
-
+        public static UserModel User;
         public static void Signup(SignupViewModel model)
         {
             Open();
@@ -47,7 +47,7 @@ namespace BlogManagementSystem.Data
             }
         }
 
-        public static BlogModel? GetByEmail(string Email)
+        public static UserModel? GetByEmail(string Email)
         {
             Open();
             OracleTransaction CmdTrans = aOracleConnection.BeginTransaction(IsolationLevel.ReadCommitted);
@@ -65,7 +65,7 @@ namespace BlogManagementSystem.Data
             }
         }
 
-        static BlogModel? GetByEmail(string Email, OracleTransaction CmdTrans, OracleConnection aOracleConnection)
+        static UserModel? GetByEmail(string Email, OracleTransaction CmdTrans, OracleConnection aOracleConnection)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace BlogManagementSystem.Data
                 var cmdText = @$"SELECT
                                 *
                             FROM
-                                TblBlog
+                                TblUser
                             where email='{Email}'
                             ";
                 cmd.CommandText = cmdText;
@@ -86,15 +86,15 @@ namespace BlogManagementSystem.Data
                 if(dt.Rows.Count > 0)
                 {
                     DataRow dr = dt.Rows[0];
-                    return new BlogModel()
+                    return new UserModel()
                     {
                         Id = Convert.ToInt32(dr[0].ToString()),
-                        title = dr[1].ToString()!,
-                        content = dr[2].ToString()!,
-                        dateAdded = DateTime.Parse(dr[3].ToString()!),
-                        imagePath = dr[4].ToString(),
-                        UserId = Convert.ToInt32(dr[5].ToString()),
-                        Category = dr[6].ToString(),
+                        firstName = dr[1].ToString()!,
+                        lastName = dr[2].ToString()!,
+                        email = dr[3].ToString()!,
+                        password = dr[4].ToString(),
+                        imagePath = dr[5].ToString(),
+                        dateJoined = DateTime.Parse(dr[6].ToString()!),
                     };
 
                 }
