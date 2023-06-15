@@ -59,7 +59,7 @@ namespace BlogManagementSystem.Pages.Blogs
                 BlogList.Update(blogModel);
             }
             
-            return Page();
+            return RedirectToPage("Index");
         }
 
         public async Task<string> UploadImage(IFormFile image, string? oldFileName)
