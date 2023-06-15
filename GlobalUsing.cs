@@ -6,7 +6,9 @@ global using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 global using Oracle.ManagedDataAccess.Client;
 global using System.ComponentModel;
 global using System.Data;
-
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.ModelBinding;
+global using Microsoft.AspNetCore.Mvc.RazorPages;
 
 
 namespace BlogManagementSystem

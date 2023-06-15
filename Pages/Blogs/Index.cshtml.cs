@@ -8,10 +8,10 @@ namespace BlogManagementSystem.Pages.Blogs
     {
 
 
-        public BindingList<BlogModel> Blogs { get; set; }
+        public List<BlogModel> Blogs { get; set; }
         public IndexModel()
         {
-            Blogs=BlogList.GetAll();
+            Blogs=BlogList.GetAll().ToList();
         }
 
 
@@ -20,9 +20,16 @@ namespace BlogManagementSystem.Pages.Blogs
         }
 
 
-        public void OnPost()
+        public IActionResult OnPost(int Id)
         {
+            BlogModel? blog=BlogList.Get(Id);
+            if (blog == null) 
+            {
+                return NotFound();
+            }
 
+            BlogList.Delete(Id);
+            return RedirectToPage();
         }
 
 

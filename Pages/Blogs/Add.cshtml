@@ -1,11 +1,16 @@
-﻿@page "/{id:int}"
+﻿@page "{id:int}"
 @model BlogManagementSystem.Pages.Blogs.AddModel
 @{
 }
 
 <form method="post" enctype="multipart/form-data" >
 
-    <input hidden asp-for="blogModel.Id" />
+    <div asp-validation-summary="All"></div>
+
+    <input hidden asp-for="blogModel.Id" value="@Model.Id" />
+    <input asp-for="blogModel.imagePath" class="form-control" hidden />
+    <input asp-for="blogModel.dateAdded" class="form-control" hidden />
+
     <div class="mb-3">
         <label asp-for="blogModel.title" class="form-label"></label>
         <input class="form-control" placeholder="Title here" asp-for="blogModel.title" />
@@ -23,7 +28,28 @@
         <input class="form-control" placeholder="Category here" asp-for="blogModel.Category" />
         <span asp-validation-for="blogModel.Category" class="text-validation"></span>
     </div>
+    
+    @{
+        if (Model.blogModel != null && Model.blogModel.imagePath!=null)
+        {
+            <img src="/img/@Model.blogModel.imagePath" style="max-width:180px;" />
+        }
+    }
+    
+    <div class="mb-3">
+        <label asp-for="blogModel.ImageFile" class="form-label ms-2 mb-2 fs-6 fw-bold">Upload File</label>
+        <input type="file" class="form-control" asp-for="blogModel.ImageFile" />
+        <span asp-validation-for="blogModel.ImageFile" class="text-validation"></span>
+    </div>
 
-
+    <button class="text-purple" type="submit" >Add</button>
 
 </form>
+
+@section Scripts{
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+
+}

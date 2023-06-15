@@ -33,7 +33,6 @@
         [Display(Name = "Image Name")]
         public string? imagePath { get; set; } = "defaultblog.jpg";
 
-        [Required]
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]
