@@ -46,6 +46,69 @@ namespace BlogManagementSystem.Data
                 throw new Exception(ex.Message);
             }
         }
+
+        public static BlogModel? GetByEmail(string Email)
+        {
+            Open();
+            OracleTransaction CmdTrans = aOracleConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+            try
+            {
+                return GetByEmail(Email, CmdTrans, aOracleConnection);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Close();
+            }
+        }
+
+        static BlogModel? GetByEmail(string Email, OracleTransaction CmdTrans, OracleConnection aOracleConnection)
+        {
+            try
+            {
+                OracleCommand cmd = aOracleConnection.CreateCommand();
+                cmd.Transaction = CmdTrans;
+                cmd.CommandType = CommandType.Text;
+                var cmdText = @$"SELECT
+                                *
+                            FROM
+                                TblBlog
+                            where email='{Email}'
+                            ";
+                cmd.CommandText = cmdText;
+                cmd.ExecuteNonQuery();
+                OracleDataAdapter da = new OracleDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                if(dt.Rows.Count > 0)
+                {
+                    DataRow dr = dt.Rows[0];
+                    return new BlogModel()
+                    {
+                        Id = Convert.ToInt32(dr[0].ToString()),
+                        title = dr[1].ToString()!,
+                        content = dr[2].ToString()!,
+                        dateAdded = DateTime.Parse(dr[3].ToString()!),
+                        imagePath = dr[4].ToString(),
+                        UserId = Convert.ToInt32(dr[5].ToString()),
+                        Category = dr[6].ToString(),
+                    };
+
+                }
+                return null;
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
         static void Open()
         {
             con = new dbAccess();

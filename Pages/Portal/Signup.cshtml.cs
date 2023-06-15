@@ -28,6 +28,12 @@ namespace BlogManagementSystem.Pages.Portal
             if (!ModelState.IsValid)
                 return Page();
 
+            if(UserRepository.GetByEmail(signupViewModel.Email)!=null)
+            {
+                ModelState.AddModelError("signupViewModel.Email", "Email is exist! write another");
+                return Page();
+            }
+
             signupViewModel.imagePath = "userdefault.jpg";
             UserRepository.Signup(signupViewModel);
 
