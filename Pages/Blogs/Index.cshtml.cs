@@ -6,6 +6,7 @@ namespace BlogManagementSystem.Pages.Blogs
     public class IndexModel : PageModel
     {
 
+        int ScreenId = 1;
 
         public IndexModel()
         {
@@ -35,10 +36,18 @@ namespace BlogManagementSystem.Pages.Blogs
         public BlogQueryParamters queryParamters { get; set; }=new BlogQueryParamters();
 
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            int CommandId = 1;
+            bool UserCan= PremissionRepository.Check(new CheckPremissionViewModel() { ScreenId=ScreenId, CommandId=CommandId,UserId=2});
+            if(!UserCan)
+            {
+                return Unauthorized();
+            }
+
             Blogs = BlogList.GetAll();
 
+            
 
 
             if (!string.IsNullOrEmpty(queryParamters.SearchTearm))
@@ -67,6 +76,7 @@ namespace BlogManagementSystem.Pages.Blogs
 
             Blogs = Blogs.Skip(queryParamters.Size * (queryParamters.CurPage - 1))
               .Take(queryParamters.Size).ToList();
+            return Page();
 
         }
 
@@ -82,7 +92,6 @@ namespace BlogManagementSystem.Pages.Blogs
             BlogList.Delete(Id);
             return RedirectToPage();
         }
-
 
     }
 }

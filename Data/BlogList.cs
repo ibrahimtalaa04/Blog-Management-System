@@ -70,8 +70,6 @@
             }
         }
 
-
-
         public static BlogModel Get(int Id)
         {
             Open();
@@ -128,10 +126,6 @@
             }
         }
 
-
-
-
-
         public static void Insert(BlogModel blog)
         {
 
@@ -170,8 +164,6 @@
                 throw new Exception(ex.Message);
             }
         }
-
-
 
         public static void Update(BlogModel blog)
         {
@@ -216,7 +208,6 @@
             }
         }
 
-
         public static void Delete(int Id)
         {
 
@@ -256,14 +247,11 @@
             }
         }
 
-
         static void Open()
         {
             con = new dbAccess();
             aOracleConnection = con.get_con();
         }
-
-
 
         static void Close()
         {
