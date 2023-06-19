@@ -8,7 +8,7 @@ namespace BlogManagementSystem.Data
 
         static dbAccess con;
         static OracleConnection aOracleConnection;
-        public UserModel? User;
+        public static UserModel? User;
         public static void Signup(SignupViewModel model)
         {
             Open();
@@ -34,8 +34,8 @@ namespace BlogManagementSystem.Data
                 OracleCommand cmd = aOracleConnection.CreateCommand();
                 cmd.Transaction = CmdTrans;
                 cmd.CommandType = CommandType.Text;
-                var cmdText = @$"insert into TblUser (Id,firstName,lastName,email,password,imagePath,datejoined)
-                                  values(TblUser_Seq_Id.NextVal,'{model.FirstName}','{model.LastName}','{model.Email}','{model.Password}','{model.imagePath}',:joined)";
+                var cmdText = @$"insert into TblUser (Id,firstName,lastName,email,password,imagePath,datejoined,RoleId)
+                                  values(TblUser_Seq_Id.NextVal,'{model.FirstName}','{model.LastName}','{model.Email}','{model.Password}','{model.imagePath}',:joined,{model.RoleId})";
                 cmd.CommandText = cmdText;
                 cmd.Parameters.Add(new OracleParameter(":joined", DateTime.Now));
                 cmd.ExecuteNonQuery();
@@ -95,6 +95,7 @@ namespace BlogManagementSystem.Data
                         password = dr[4].ToString(),
                         imagePath = dr[5].ToString(),
                         dateJoined = DateTime.Parse(dr[6].ToString()!),
+                        RoleId = Convert.ToInt32(dr[7].ToString()),
                     };
 
                 }

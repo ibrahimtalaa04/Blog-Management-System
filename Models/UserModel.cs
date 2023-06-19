@@ -33,5 +33,11 @@ namespace BlogManagementSystem.Models
 
         public DateTime dateJoined { get; set; }=DateTime.Now;
 
+        public int RoleId { get; set; }
+
+
+        [ForeignKey("RoleId")]
+        public RoleModel? Role { get; set; }
+
     }
 }

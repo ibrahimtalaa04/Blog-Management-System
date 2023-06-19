@@ -31,7 +31,7 @@
         public string? ConfirmPassword { get; set; }
 
         public string? imagePath { get; set; }
-
+        public int RoleId { get; set; }
         public bool IAgree { get; set; }
     }
 }

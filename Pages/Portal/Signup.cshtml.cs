@@ -37,6 +37,7 @@ namespace BlogManagementSystem.Pages.Portal
             }
 
             signupViewModel.imagePath = "userdefault.jpg";
+            signupViewModel.RoleId = 2;
             UserRepository.Signup(signupViewModel);
 
             return RedirectToPage("Signin");
