@@ -47,8 +47,6 @@ namespace BlogManagementSystem.Pages.Blogs
 
             Blogs = BlogList.GetAll();
 
-            
-
 
             if (!string.IsNullOrEmpty(queryParamters.SearchTearm))
             {
